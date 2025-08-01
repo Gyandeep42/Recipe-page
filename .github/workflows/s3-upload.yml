@@ -5,7 +5,7 @@ on:
     branches:
       - main         # Change to your default branch if not 'main'
     paths:
-      - '**/*'       # Trigger on changes to any file
+      - '**/*'       # Trigger on changes to any file1
 
 jobs:
   upload-to-s3:
