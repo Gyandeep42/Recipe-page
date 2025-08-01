@@ -16,10 +16,10 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ASIAUK6YLKTANNK7CJ47
-          aws-secret-access-key: n0OWAvtk7+kLFafIW+dNhsqE0BMSyelsyaaiqIxv
-          aws-region: us-east-1  # or your region
+          aws-access-key-id: ASIA6GGLGVYW3LZ7KUIY
+          aws-secret-access-key: hdd0HhP57ule+z8r3B9SZmWJlLw+rYm+Cs12GYY8
+          aws-region: us-east-1 # or your region
 
       - name: Upload to S3
         run: |
-          aws s3 cp . s3://loggingbtk/ --recursive --exclude ".git/*"
+          aws s3 cp . s3://bbtkntr/ --recursive --exclude ".git/*"
