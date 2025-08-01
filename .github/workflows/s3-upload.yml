@@ -1,25 +1,39 @@
-name: Upload to S3
+name: Upload zipped repo to S3 on changes
 
 on:
   push:
     branches:
-      - main  # or any branch you want 
+      - main
+    paths:
+      - '**.py'
+      - '**.html'
+      - '**.css'
+      - '**.js'
+      - '**.php'
+      - '**.yml'
+      - '!README.md'     # ignore if you want
 
 jobs:
   upload:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ASIA6GGLGVYW3LZ7KUIY
-          aws-secret-access-key: hdd0HhP57ule+z8r3B9SZmWJlLw+rYm+Cs12GYY8
-          aws-region: us-east-1 # or your region
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1  # Change to your region
 
-      - name: Upload to S3
+      - name: Zip repo with timestamp
         run: |
-          aws s3 cp . s3://bktbktbbkt/ --recursive --exclude ".git/*"
+          zip_name="repo-$(date +'%Y-%m-%d-%H-%M-%S').zip"
+          zip -r $zip_name . -x ".git/*" ".github/*"
+          echo "ZIP_NAME=$zip_name" >> $GITHUB_ENV
+
+      - name: Upload ZIP to S3
+        run: |
+          aws s3 cp $ZIP_NAME s3://bktbktbbkt/uploads/$ZIP_NAME
